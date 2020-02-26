@@ -5,24 +5,46 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite{
         
         this.scene.add.existing(this)
         this.scene.physics.world.enable(this)
+
+        this.timeToShoot = 0
+        this.fireRate    = 250
+        this.velocity    = 150
+
+        this.bullets = this.scene.physics.add.group({
+            maxSize:5,
+        })
     }
 
-    update(cursors){
+    update(cursors, time){
         this.setVelocity(0)
-        const velocity = 1000
+
         if(cursors.down.isDown){
-            this.setVelocityY(velocity)
-            this.setFrame(1)
+            this.setVelocityY(this.velocity)
         }else if(cursors.up.isDown){
-            this.setVelocityY(-velocity)
-            this.setFrame(2)
+            this.setVelocityY(-this.velocity)
         }
         if(cursors.left.isDown){
-            this.setVelocityX(-velocity)
-            this.setFrame(1)
+            this.setVelocityX(-this.velocity)
         }else if(cursors.right.isDown){
-            this.setVelocityX(velocity)
-            this.setFrame(2)
+            this.setVelocityX(this.velocity)
         }
+
+        if(cursors.space.isDown && this.timeToShoot < time)
+        {  
+            let bullet = this.bullets.getFirstDead(true, this.x, this.y, "bullet")
+            if(bullet)
+            {
+                bullet.setVelocityX(200)
+                bullet.active = true
+                bullet.visible = true
+            }
+            this.timeToShoot = time + this.fireRate
+        }
+        this.bullets.children.iterate(function(bullet){
+            if(bullet.x > this.scene.game.config.width)
+            {
+                this.bullets.killAndHide(bullet)
+            }
+        }, this)  
     }
 }
