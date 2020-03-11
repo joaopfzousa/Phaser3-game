@@ -1,22 +1,24 @@
-export default class bootGame extends Phaser.Scene{
-    constructor(){
+export default class bootGame extends Phaser.Scene {
+    constructor() {
         super("BootGame");
     }
     preload() {
         this.load.spritesheet("bird", "assets/bird.png", {
-            frameWidth:34,
-            frameHeight:24,
-        })
+            frameWidth: 34,
+            frameHeight: 24
+        });
 
-        this.load.spritesheet("enemies", "assets/enemies.png", {
-            frameWidth:96,
-            frameHeight:90,
-        })
+        this.load.image("bullet", "assets/bullet.png");
 
-        this.load.image("bullet", "assets/bullet.png")
-        
+        this.load.spritesheet("enemy", "assets/enemies.png", {
+            frameHeight: 96,
+            frameWidth: 96
+        });
+
+        this.load.image("bg", "assets/background.png");
+
     }
-    create(){
+    create() {
         this.scene.start("PlayGame");
     }
 }
