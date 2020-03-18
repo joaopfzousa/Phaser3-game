@@ -46,10 +46,12 @@ export default class Bird extends Phaser.Physics.Arcade.Sprite {
             //let bullet = this.scene.physics.add.image(this.x, this.y, "bullet");
             let bullet = this.bullets.getFirstDead(true, this.x, this.y);
 
+            
             if (bullet) {
-                //bullet.setVelocityX(350);
-                bullet.fire(this.scene.enemy);
-
+                bullet.setVelocityX(350);
+                //bullet.fire(this.scene.enemy);
+                bullet.active = true;
+                bullet.visible = true;
             }
             //this.bullets.push(bullet);
 
